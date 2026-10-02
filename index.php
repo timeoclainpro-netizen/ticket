@@ -11,7 +11,17 @@ if (isset($_POST['code'])) {
     $code = (int) $_POST['code'];
 
     if ($code >= 1 && $code <= 999) {
-        echo "<p>Le code $code est correct.</p>";
+        $mysqli = new mysqli("localhost", "root", "", "ticket");
+        $mysqli->set_charset("utf8mb4");
+
+        $stmt = $mysqli->prepare("SELECT article FROM articles WHERE code = ?");
+        $stmt->bind_param("i", $code);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            echo "<p>Le code $code est correct. L'information correspondante est : " . $row['article'] . "</p>";
+        }
     } elseif ($code == 0) {
         echo "<p>Le code est incorrect, trop grand !<br>Le code zéro est un cas particulier !</p>";
     } else {
