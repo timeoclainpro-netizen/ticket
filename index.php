@@ -6,6 +6,20 @@
 </head>
 <body>
 
+<?php
+if (isset($_POST['code'])) {
+    $code = (int) $_POST['code'];
+
+    if ($code >= 1 && $code <= 999) {
+        echo "<p>Le code $code est correct.</p>";
+    } elseif ($code == 0) {
+        echo "<p>Le code est incorrect, trop grand !<br>Le code zéro est un cas particulier !</p>";
+    } else {
+        echo "<p>Le code est incorrect, trop grand !</p>";
+    }
+}
+?>
+
 <form method="post">
     <label>Code : <input type="number" name="code"></label>
     <button type="submit">Valider</button>
