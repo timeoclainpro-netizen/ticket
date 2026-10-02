@@ -23,7 +23,15 @@ if (isset($_POST['code'])) {
             echo "<p>Le code $code est correct. L'information correspondante est : " . $row['article'] . "</p>";
         }
     } elseif ($code == 0) {
-        echo "<p>Le code est incorrect, trop grand !<br>Le code zéro est un cas particulier !</p>";
+        $mysqli = new mysqli("localhost", "root", "", "ticket");
+        $mysqli->set_charset("utf8mb4");
+
+        $result = $mysqli->query("SELECT code, article FROM articles");
+        echo "<ul>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<li>" . $row['code'] . " : " . $row['article'] . "</li>";
+        }
+        echo "</ul>";
     } else {
         echo "<p>Le code est incorrect, trop grand !</p>";
     }
